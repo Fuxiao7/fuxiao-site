@@ -1,0 +1,57 @@
+server:
+  port: ${SERVER_PORT:8080}
+  shutdown: graceful
+
+spring:
+  application:
+    name: fuxiao-submission
+  datasource:
+    url: ${DB_URL:jdbc:mysql://127.0.0.1:3306/fuxiao_admin?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false&rewriteBatchedStatements=true}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:fuxiao123}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: Asia/Shanghai
+        default_batch_fetch_size: 50
+    show-sql: false
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 25MB
+  jackson:
+    time-zone: Asia/Shanghai
+    serialization:
+      write-dates-as-timestamps: false
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:fuxiao-submission-2026-please-change-this-secret-at-least-32-bytes}
+    expire-hours: ${JWT_EXPIRE_HOURS:72}
+  upload-dir: ${UPLOAD_DIR:./uploads}
+  admin:
+    init-password: ${ADMIN_INIT_PASSWORD:fuxiao@2026}
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:5174,http://127.0.0.1:5174,http://localhost:5173,http://127.0.0.1:5173}
+  publish:
+    enabled: ${PUBLISH_ENABLED:false}
+    blog-dir: ${BLOG_DIR:}
+    build-command: ${BLOG_BUILD_COMMAND:npm run build}
+    restart-command: ${BLOG_RESTART_COMMAND:}
+    health-url: ${BLOG_HEALTH_URL:http://127.0.0.1:3100/}
+    timeout-seconds: ${BLOG_BUILD_TIMEOUT:300}
+    node-options: ${BLOG_NODE_OPTIONS:--max-old-space-size=3072}
+
+logging:
+  level:
+    root: info
+    com.fuxiao.submission: info
+    org.hibernate.SQL: warn

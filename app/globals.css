@@ -1,0 +1,300 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   拂晓和朋友们 · OpenCode 二次设计
+   纸面页：暖奶油底 + 等宽字 + 1px 发丝线 + 4px 圆角 + ASCII 标记
+   暗房（摄影页）：保持原有暗调衬线，不受 OpenCode 影响
+   ========================================================================== */
+
+:root {
+  /* OpenCode 调色板 */
+  --bg: #fdfcfc;
+  --bg2: #f1eeee;
+  --fg: #201d1d;
+  --mute: #4a4845;
+  --faint: #75726e;
+  --line: rgba(15, 0, 0, 0.12);
+  --line-s: rgba(15, 0, 0, 0.24);
+  --accent: #201d1d;
+  --shadow: rgba(15, 0, 0, 0.06);
+  /* 字体：纸面页全等宽 */
+  --font-display: "JetBrains Mono", "Noto Sans SC", ui-monospace, monospace;
+  --font-body: "JetBrains Mono", "Noto Sans SC", ui-monospace, monospace;
+}
+
+.dark {
+  /* 暗房世界：保持摄影页原有暗调 */
+  --bg: #050506;
+  --bg2: #0c0c0e;
+  --fg: #ece9e1;
+  --mute: #a09d95;
+  --faint: #6b6862;
+  --line: rgba(236, 233, 225, 0.16);
+  --line-s: rgba(236, 233, 225, 0.36);
+  --accent: #d15b34;
+  --shadow: rgba(0, 0, 0, 0.5);
+  /* 摄影页用衬线 */
+  --font-display: "Noto Serif SC", "Source Han Serif SC", serif;
+  --font-body: "Noto Serif SC", "Source Han Serif SC", serif;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+/* 滚动条：一根细线 */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line-s);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--fg);
+}
+
+:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 4px;
+}
+
+@layer utilities {
+  .bg-world { background-color: var(--bg); }
+  .bg-world2 { background-color: var(--bg2); }
+  .text-world { color: var(--fg); }
+  .text-mute { color: var(--mute); }
+  .text-faint { color: var(--faint); }
+  .text-accent { color: var(--accent); }
+  .border-hair { border-color: var(--line); }
+  .border-hair-s { border-color: var(--line-s); }
+  .fill-world { fill: var(--fg); }
+
+  .shell {
+    width: 100%;
+    max-width: 1340px;
+    margin-inline: auto;
+    padding-inline: clamp(18px, 3.2vw, 40px);
+  }
+
+  .label {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    letter-spacing: 0.03em;
+    color: var(--mute);
+  }
+
+  .num {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+  }
+
+  .display {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.06;
+  }
+  /* 暗房世界：display 保持衬线细体 */
+  .dark .display {
+    font-weight: 300;
+    letter-spacing: -0.015em;
+  }
+
+  .mono {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  .measure {
+    max-width: 38em;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   OpenCode 工具样式：4px 圆角交互件、ASCII 标记
+   仅纸面页（:root 非 .dark），摄影页不受影响
+   -------------------------------------------------------------------------- */
+/* 交互件 4px 圆角（OpenCode rounded.sm） */
+:root:not(.dark) button,
+:root:not(.dark) a[class*="border"],
+:root:not(.dark) input,
+:root:not(.dark) textarea {
+  border-radius: 4px;
+}
+/* 容器保持方角（OpenCode rounded.none） */
+:root:not(.dark) section,
+:root:not(.dark) header,
+:root:not(.dark) footer,
+:root:not(.dark) article {
+  border-radius: 0;
+}
+
+/* --------------------------------------------------------------------------
+   颗粒：一层很薄的胶片噪点，压在整页上面
+   -------------------------------------------------------------------------- */
+.grain {
+  position: fixed;
+  inset: -60px;
+  z-index: 80;
+  pointer-events: none;
+  opacity: 0.055;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.86' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+.dark .grain {
+  opacity: 0.09;
+  mix-blend-mode: screen;
+}
+/* OpenCode 纸面页是干净的 man-page：噪点只属于暗房世界 */
+:root:not(.dark) .grain {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   交叉溶解：全站统一的页面切换
+   -------------------------------------------------------------------------- */
+.dissolve {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  pointer-events: none;
+  opacity: 0;
+  display: none;
+}
+.dissolve.is-live { display: block; }
+
+/* --------------------------------------------------------------------------
+   正文
+   -------------------------------------------------------------------------- */
+.prose-lamp {
+  font-size: 17.5px;
+  line-height: 1.95;
+  color: var(--fg);
+}
+.prose-lamp > p {
+  margin-bottom: 1.5em;
+  text-wrap: pretty;
+}
+.prose-lamp > p:first-of-type {
+  font-size: 20px;
+  line-height: 1.85;
+}
+.prose-lamp h2 {
+  font-size: clamp(21px, 2.4vw, 25px);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  margin: 2.4em 0 0.9em;
+  padding-top: 1.1em;
+  border-top: 1px solid var(--line);
+}
+.prose-lamp a {
+  color: var(--fg);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+.prose-lamp a:hover {
+  color: var(--accent);
+}
+.prose-lamp blockquote {
+  margin: 2em 0;
+  padding-left: 22px;
+  border-left: 1px solid var(--line-s);
+  font-size: 20px;
+  line-height: 1.8;
+}
+.prose-lamp ul {
+  margin: 0 0 1.6em;
+}
+.prose-lamp li {
+  position: relative;
+  padding-left: 1.6em;
+  margin-bottom: 0.5em;
+  font-size: 17px;
+}
+.prose-lamp li::before {
+  content: "[+]";
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  color: var(--mute);
+}
+.prose-lamp pre {
+  margin: 2em 0;
+  padding: 18px 20px;
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  overflow-x: auto;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--fg);
+}
+.prose-lamp code {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.9em;
+}
+.prose-lamp :not(pre) > code {
+  border: 1px solid var(--line);
+  padding: 1px 5px;
+  background: var(--bg2);
+}
+.prose-lamp figure {
+  margin: 2.4em 0;
+}
+.prose-lamp figcaption {
+  margin-top: 10px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  line-height: 1.7;
+  letter-spacing: 0.04em;
+  color: var(--mute);
+}
+
+/* 图片默认色彩管理不夸张 */
+img {
+  -webkit-user-drag: none;
+}
+
+/* 数字与拉丁字母的等宽小标 */
+kbd {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  border: 1px solid var(--line);
+  padding: 1px 5px;
+  color: var(--mute);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain { display: none; }
+  [data-anim] { opacity: 1 !important; transform: none !important; }
+}

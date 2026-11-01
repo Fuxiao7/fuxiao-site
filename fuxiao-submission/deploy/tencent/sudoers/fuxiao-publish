@@ -1,0 +1,7 @@
+# 允许 fuxiao 用户重启自己的服务与重载 Nginx，不开放任意 root 命令。
+# 安装后执行：visudo -cf /etc/sudoers.d/fuxiao-publish
+fuxiao ALL=(root) NOPASSWD: /usr/bin/systemctl restart fuxiao-api
+fuxiao ALL=(root) NOPASSWD: /usr/bin/systemctl restart fuxiao-blog
+fuxiao ALL=(root) NOPASSWD: /usr/bin/systemctl reload nginx
+fuxiao ALL=(root) NOPASSWD: /usr/bin/systemctl status fuxiao-api
+fuxiao ALL=(root) NOPASSWD: /usr/bin/systemctl status fuxiao-blog

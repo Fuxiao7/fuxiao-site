@@ -1,0 +1,22 @@
+[Unit]
+Description=Fuxiao Blog (Next.js)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=fuxiao
+Group=fuxiao
+WorkingDirectory=/srv/fuxiao/app
+Environment=NODE_ENV=production
+Environment=PORT=3100
+Environment=NEXT_TELEMETRY_DISABLED=1
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/bin/npm run start
+Restart=always
+RestartSec=5
+KillMode=mixed
+TimeoutStopSec=20
+
+[Install]
+WantedBy=multi-user.target

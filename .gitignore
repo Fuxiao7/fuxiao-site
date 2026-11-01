@@ -1,0 +1,16 @@
+node_modules/
+.next/
+.next-publish/
+.next-backup/
+.env
+.env.local
+.env.*.local
+*.tsbuildinfo
+*.log
+
+# 本地便携运行时 / 构建产物（不在 GitHub 里存）
+.tools/
+.data/
+.npm-cache/
+**/target/
+**/dist/

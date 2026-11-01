@@ -1,0 +1,23 @@
+server:
+  port: ${SERVER_PORT:8080}
+  address: 127.0.0.1
+
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:mysql://127.0.0.1:3306/fuxiao_admin?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false}
+    username: ${DB_USERNAME:fuxiao}
+    password: ${DB_PASSWORD:}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+
+app:
+  upload-dir: ${UPLOAD_DIR:/srv/fuxiao/uploads}
+  publish:
+    enabled: ${PUBLISH_ENABLED:true}
+    blog-dir: ${BLOG_DIR:/srv/fuxiao/app}
+    build-command: ${BLOG_BUILD_COMMAND:/usr/bin/npm run build}
+    restart-command: ${BLOG_RESTART_COMMAND:/usr/bin/sudo -n /usr/bin/systemctl restart fuxiao-blog}
+    health-url: ${BLOG_HEALTH_URL:http://127.0.0.1:3100/}
+    timeout-seconds: ${BLOG_BUILD_TIMEOUT:300}

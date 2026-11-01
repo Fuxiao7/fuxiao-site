@@ -1,0 +1,29 @@
+* text=auto
+
+# Linux 服务器脚本与配置必须是 LF，否则 bash 会报 bad interpreter
+*.sh text eol=lf
+*.conf text eol=lf
+*.service text eol=lf
+fuxiao-submission/deploy/tencent/sudoers/* text eol=lf
+*.env text eol=lf
+.env.production text eol=lf
+
+# Windows 脚本保留 CRLF
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+
+# 文本源码统一
+*.java text eol=lf
+*.vue text eol=lf
+*.ts text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.mjs text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.sql text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.xml text eol=lf
+*.css text eol=lf
+*.html text eol=lf
